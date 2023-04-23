@@ -3,6 +3,7 @@ import 'package:amazon_clone_tutorial/constants/global_variables.dart';
 import 'package:flutter/material.dart';
 
 import '../../../common/widgets/custom_textfield.dart';
+import '../services/auth_serivces.dart';
 
 enum Auth {
   signin,
@@ -26,6 +27,22 @@ class _AuthScreenState extends State<AuthScreen> {
   final TextEditingController _emailController = TextEditingController();
   final TextEditingController _passwordController = TextEditingController();
   final TextEditingController _nameController = TextEditingController();
+  final AuthService authService = AuthService();
+
+  void signUpUser() {
+    authService.signUpUser(
+        context: context,
+        email: _emailController.text,
+        password: _passwordController.text,
+        name: _nameController.text);
+  }
+
+  void signInUser() {
+    authService.signInUser(
+        context: context,
+        email: _emailController.text,
+        password: _passwordController.text);
+  }
 
   @override
   void dispose() {
@@ -99,7 +116,13 @@ class _AuthScreenState extends State<AuthScreen> {
                         SizedBox(
                           height: 10.0,
                         ),
-                        CustomButton(text: "Sign Up", onTap: () {})
+                        CustomButton(
+                            text: "Sign Up",
+                            onTap: () {
+                              if (_signUpFormKey.currentState!.validate()) {
+                                signUpUser();
+                              }
+                            })
                       ],
                     ),
                   ),
@@ -128,7 +151,7 @@ class _AuthScreenState extends State<AuthScreen> {
                   padding: EdgeInsets.all(8.0),
                   color: GlobalVariables.backgroundColor,
                   child: Form(
-                    key: _signUpFormKey,
+                    key: _signInFormKey,
                     child: Column(
                       children: [
                         // CustomTextField(
@@ -152,7 +175,13 @@ class _AuthScreenState extends State<AuthScreen> {
                         SizedBox(
                           height: 10.0,
                         ),
-                        CustomButton(text: "Sign In", onTap: () {})
+                        CustomButton(
+                            text: "Sign In",
+                            onTap: () {
+                              if (_signInFormKey.currentState!.validate()) {
+                                signInUser();
+                              }
+                            })
                       ],
                     ),
                   ),
