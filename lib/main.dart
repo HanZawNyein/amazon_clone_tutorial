@@ -6,6 +6,8 @@ import 'package:amazon_clone_tutorial/router.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
+import 'common/widgets/bottom_bar.dart';
+
 void main() {
   runApp(
     MultiProvider(providers: [
@@ -30,8 +32,9 @@ class _MyAppState extends State<MyApp> {
   void initState() {
     // TODO: implement initState
     super.initState();
-
+    authService.getUserData(context: context);
   }
+
   // This widget is the root of your application.
   @override
   Widget build(BuildContext context) {
@@ -44,7 +47,9 @@ class _MyAppState extends State<MyApp> {
           appBarTheme: AppBarTheme(
               elevation: 0.0, iconTheme: IconThemeData(color: Colors.black))),
       onGenerateRoute: (settings) => generateRoute(settings),
-      home: AuthScreen(),
+      home: Provider.of<UserProvider>(context).user.token.isNotEmpty
+          ? BottomBar()
+          : AuthScreen(),
     );
   }
 }
