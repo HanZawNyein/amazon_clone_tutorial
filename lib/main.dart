@@ -7,6 +7,7 @@ import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
 import 'common/widgets/bottom_bar.dart';
+import 'features/admin/screens/admin_screen.dart';
 
 void main() {
   runApp(
@@ -40,6 +41,7 @@ class _MyAppState extends State<MyApp> {
   Widget build(BuildContext context) {
     return MaterialApp(
       title: 'Amazon Clone',
+      debugShowCheckedModeBanner: false,
       theme: ThemeData(
           scaffoldBackgroundColor: GlobalVariables.backgroundColor,
           colorScheme:
@@ -48,7 +50,9 @@ class _MyAppState extends State<MyApp> {
               elevation: 0.0, iconTheme: IconThemeData(color: Colors.black))),
       onGenerateRoute: (settings) => generateRoute(settings),
       home: Provider.of<UserProvider>(context).user.token.isNotEmpty
-          ? BottomBar()
+          ? Provider.of<UserProvider>(context).user.type == 'user'
+              ? BottomBar()
+              : AdminScreen()
           : AuthScreen(),
     );
   }
