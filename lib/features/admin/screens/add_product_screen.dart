@@ -1,9 +1,12 @@
+import 'dart:io';
+
 import 'package:amazon_clone_tutorial/common/widgets/custom_button.dart';
 import 'package:amazon_clone_tutorial/common/widgets/custom_textfield.dart';
 import 'package:dotted_border/dotted_border.dart';
 import 'package:flutter/material.dart';
 
 import '../../../constants/global_variables.dart';
+import '../../../constants/utils.dart';
 
 class AddProductScreen extends StatefulWidget {
   static const String routeName = '/add-product';
@@ -31,7 +34,7 @@ class _AddProductScreenState extends State<AddProductScreen> {
   }
 
   String categories = 'Mobiles';
-
+  List<File> images = [];
   List<String> productCategories = [
     'Mobiles',
     'Essentials',
@@ -39,6 +42,13 @@ class _AddProductScreenState extends State<AddProductScreen> {
     'Books',
     'Fashion'
   ];
+  void selectImages() async {
+    var res = await pickImages();
+    // print("Hello");
+    setState(() {
+      images = res;
+    });
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -65,33 +75,36 @@ class _AddProductScreenState extends State<AddProductScreen> {
                 SizedBox(
                   height: 20,
                 ),
-                DottedBorder(
-                  borderType: BorderType.RRect,
-                  radius: Radius.circular(10.0),
-                  dashPattern: [10, 4],
-                  strokeCap: StrokeCap.round,
-                  child: Container(
-                    width: double.infinity,
-                    height: 150,
-                    decoration: BoxDecoration(
-                      borderRadius: BorderRadius.circular(10),
-                    ),
-                    child: Column(
-                      mainAxisAlignment: MainAxisAlignment.center,
-                      children: [
-                        Icon(
-                          Icons.folder_open,
-                          size: 40,
-                        ),
-                        SizedBox(
-                          height: 10.0,
-                        ),
-                        Text(
-                          "Select Product Images",
-                          style: TextStyle(
-                              fontSize: 15, color: Colors.grey.shade400),
-                        )
-                      ],
+                GestureDetector(
+                  onTap: selectImages,
+                  child: DottedBorder(
+                    borderType: BorderType.RRect,
+                    radius: Radius.circular(10.0),
+                    dashPattern: [10, 4],
+                    strokeCap: StrokeCap.round,
+                    child: Container(
+                      width: double.infinity,
+                      height: 150,
+                      decoration: BoxDecoration(
+                        borderRadius: BorderRadius.circular(10),
+                      ),
+                      child: Column(
+                        mainAxisAlignment: MainAxisAlignment.center,
+                        children: [
+                          Icon(
+                            Icons.folder_open,
+                            size: 40,
+                          ),
+                          SizedBox(
+                            height: 10.0,
+                          ),
+                          Text(
+                            "Select Product Images",
+                            style: TextStyle(
+                                fontSize: 15, color: Colors.grey.shade400),
+                          )
+                        ],
+                      ),
                     ),
                   ),
                 ),
@@ -142,7 +155,7 @@ class _AddProductScreenState extends State<AddProductScreen> {
                 CustomButton(
                   text: 'Sell',
                   onTap: () {},
-                )
+                ),
               ],
             ),
           ),
