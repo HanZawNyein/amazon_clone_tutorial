@@ -8,11 +8,13 @@ const DB = "mongodb+srv://hanzaw:hanzaw@cluster0.ktg4l.mongodb.net/?retryWrites=
 
 // consts
 const authRouter = require("./routes/auth")
+const adminRouter = require("./middlewares/auth");
 const req = require('express/lib/request')
 
 // middleware
 app.use(express.json());
 app.use(authRouter);
+app.use(adminRouter);
 
 // connect
 mongoose.set('strictQuery', true);
